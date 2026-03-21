@@ -45,6 +45,8 @@ Optionally, you can host the RPM in a [COPR](https://copr.fedorainfracloud.org/)
 
 ## Updating to a new version
 
+### Kiro IDE
+
 1. Check the latest version:
    ```bash
    curl -s https://prod.download.desktop.kiro.dev/stable/metadata-linux-x64-stable.json | python3 -c "import sys,json; print(json.load(sys.stdin)['currentRelease'])"
