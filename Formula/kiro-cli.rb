@@ -6,9 +6,9 @@ class KiroCli < Formula
   sha256 "5b14b38da1f2669edf6c5743704c0c9895b28d9f220c9c29e0ef1a42e76384b6"
 
   def install
-    bin.install "kirocli/bin/kiro-cli"
-    bin.install "kirocli/bin/kiro-cli-chat"
-    bin.install "kirocli/bin/kiro-cli-term"
+    bin.install "bin/kiro-cli"
+    bin.install "bin/kiro-cli-chat"
+    bin.install "bin/kiro-cli-term"
   end
 
   test do
