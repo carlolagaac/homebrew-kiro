@@ -1,8 +1,8 @@
-# Kiro IDE — Linux Packages
+# Kiro — Linux Packages
 
-Unofficial Linux packages for [Kiro](https://kiro.dev/), the agent-centric IDE with spec-driven development.
+Unofficial Linux packages for [Kiro IDE](https://kiro.dev/) and [Kiro CLI](https://kiro.dev/cli/).
 
-Kiro officially provides a macOS Homebrew cask and a `.tar.gz` for Linux. This repo adds Homebrew formulae for Linuxbrew and an RPM spec for Fedora.
+Kiro officially provides a macOS Homebrew cask, a `.tar.gz` for Linux, and a CLI install script. This repo adds Homebrew formulae for Linuxbrew and an RPM spec for Fedora.
 
 ## Homebrew (Linuxbrew)
 
