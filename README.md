@@ -2,49 +2,25 @@
 
 Unofficial Linux packages for [Kiro](https://kiro.dev/), the agent-centric IDE with spec-driven development.
 
-Kiro officially provides a macOS Homebrew cask and a `.tar.gz` for Linux. This repo adds a Homebrew formula for Linuxbrew and an RPM spec for Fedora.
+Kiro officially provides a macOS Homebrew cask and a `.tar.gz` for Linux. This repo adds Homebrew formulae for Linuxbrew and an RPM spec for Fedora.
 
 ## Homebrew (Linuxbrew)
-
-### Setup
-
-Create a [Homebrew tap](https://docs.brew.sh/Taps) so you can install with `brew install`:
-
-```bash
-# Create a new repo named "homebrew-kiro" on GitHub under your account.
-# The repo name MUST start with "homebrew-" for taps to work.
-#
-# Then structure it as:
-#   homebrew-kiro/
-#   └── Formula/
-#       └── kiro.rb
-```
-
-Push the formula:
-
-```bash
-mkdir -p Formula
-cp kiro.rb Formula/
-git init
-git remote add origin git@github.com:<your-username>/homebrew-kiro.git
-git add .
-git commit -m "Add kiro formula 0.11.63"
-git push -u origin main
-```
 
 ### Install
 
 ```bash
-brew tap <your-username>/kiro
-brew install kiro
+brew tap carlolagaac/kiro
+brew install kiro          # Kiro IDE
+brew install kiro-cli      # Kiro CLI (terminal agent)
 ```
 
 ### Upgrade
 
-Update the `version` and `sha256` in `Formula/kiro.rb`, commit, push, then:
+Update the `version` and `sha256` in the formula files, commit, push, then:
 
 ```bash
 brew upgrade kiro
+brew upgrade kiro-cli
 ```
 
 ## Fedora RPM
@@ -80,7 +56,22 @@ Optionally, you can host the RPM in a [COPR](https://copr.fedorainfracloud.org/)
    curl -sL "https://prod.download.desktop.kiro.dev/releases/stable/linux-x64/signed/${VERSION}/tar/kiro-ide-${VERSION}-stable-linux-x64.tar.gz" | sha256sum
    ```
 
-3. Update `version` and `sha256` in both `kiro.rb` and `kiro.spec`.
+3. Update `version` and `sha256` in both `Formula/kiro.rb` and `kiro.spec`.
+
+### Kiro CLI
+
+1. Check the latest version:
+   ```bash
+   curl -s https://desktop-release.q.us-east-1.amazonaws.com/latest/manifest.json | python3 -c "import sys,json; print(json.load(sys.stdin)['version'])"
+   ```
+
+2. Get the new sha256:
+   ```bash
+   VERSION=<new-version>
+   curl -sL "https://desktop-release.q.us-east-1.amazonaws.com/${VERSION}/kirocli-x86_64-linux.tar.gz" | sha256sum
+   ```
+
+3. Update `version` and `sha256` in `Formula/kiro-cli.rb`.
 
 ## License
 
