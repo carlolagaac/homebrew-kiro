@@ -47,15 +47,17 @@ Optionally, you can host the RPM in a [COPR](https://copr.fedorainfracloud.org/)
 
 ## Updating to a new version
 
-### Kiro IDE
-
-Run the update script to automatically fetch the latest version and update `Formula/kiro.rb` and `kiro.spec`:
+Run the update script to automatically fetch the latest versions and update all formula/spec files:
 
 ```bash
 ./update-kiro.sh
 ```
 
-Or manually:
+This updates `Formula/kiro.rb`, `kiro.spec` (Kiro IDE), and `Formula/kiro-cli.rb` (Kiro CLI).
+
+### Manual update
+
+#### Kiro IDE
 
 1. Check the latest version:
    ```bash
@@ -70,7 +72,7 @@ Or manually:
 
 3. Update `version` and `sha256` in both `Formula/kiro.rb` and `kiro.spec`.
 
-### Kiro CLI
+#### Kiro CLI
 
 1. Check the latest version:
    ```bash
