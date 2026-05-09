@@ -1,6 +1,0 @@
-fileignoreconfig:
-- filename: Formula/kiro-cli.rb
-  checksum: 027791f700e7644b076fabbac89380ff734733022409a6dfe5f4a534fc3a5b58
-- filename: Formula/kiro.rb
-  checksum: 0555cc5f6ccb4d1bddb2ed64618aa18aade17c989bd7af6c7a38673e38d5a892
-version: "1.0"
