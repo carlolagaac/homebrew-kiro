@@ -3,6 +3,12 @@ set -euo pipefail
 
 cd "$(dirname "$0")"
 
+if sed --version &>/dev/null; then
+  sedi() { sed -i "$@"; }
+else
+  sedi() { sed -i '' "$@"; }
+fi
+
 echo "Fetching latest Kiro IDE version..."
 VERSION=$(curl -s https://prod.download.desktop.kiro.dev/stable/metadata-linux-x64-stable.json | python3 -c "import sys,json; print(json.load(sys.stdin)['currentRelease'])")
 echo "Latest version: $VERSION"
@@ -12,11 +18,11 @@ SHA256=$(curl -sL "https://prod.download.desktop.kiro.dev/releases/stable/linux-
 echo "SHA256: $SHA256"
 
 # Update Formula/kiro.rb
-sed -i "s/^  version \".*\"/  version \"${VERSION}\"/" Formula/kiro.rb
-sed -i "s/^  sha256 \".*\"/  sha256 \"${SHA256}\"/" Formula/kiro.rb
+sedi "s/^  version \".*\"/  version \"${VERSION}\"/" Formula/kiro.rb
+sedi "s/^  sha256 \".*\"/  sha256 \"${SHA256}\"/" Formula/kiro.rb
 
 # Update kiro.spec
-sed -i "s/^Version:        .*/Version:        ${VERSION}/" kiro.spec
+sedi "s/^Version:        .*/Version:        ${VERSION}/" kiro.spec
 
 echo "Updated Formula/kiro.rb and kiro.spec to version ${VERSION}"
 
@@ -30,7 +36,7 @@ CLI_SHA256=$(curl -sL "https://desktop-release.q.us-east-1.amazonaws.com/${CLI_V
 echo "SHA256: $CLI_SHA256"
 
 # Update Formula/kiro-cli.rb
-sed -i "s/^  version \".*\"/  version \"${CLI_VERSION}\"/" Formula/kiro-cli.rb
-sed -i "s/^  sha256 \".*\"/  sha256 \"${CLI_SHA256}\"/" Formula/kiro-cli.rb
+sedi "s/^  version \".*\"/  version \"${CLI_VERSION}\"/" Formula/kiro-cli.rb
+sedi "s/^  sha256 \".*\"/  sha256 \"${CLI_SHA256}\"/" Formula/kiro-cli.rb
 
 echo "Updated Formula/kiro-cli.rb to version ${CLI_VERSION}"

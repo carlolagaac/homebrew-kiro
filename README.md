@@ -6,7 +6,7 @@ Kiro officially provides a macOS Homebrew cask, a `.tar.gz` for Linux, and a CLI
 
 ## Homebrew (Linuxbrew)
 
-Works on standard Linux distros and immutable Fedora-based distros (Bazzite, Bluefin, Aurora, etc.) where `dnf install` is not available.
+Works on standard Linux distros and immutable Fedora-based distros (Bazzite, Bluefin, Aurora, etc.) where `dnf install` is not available. Also works with macOS Homebrew.
 
 ### Install
 
@@ -47,7 +47,7 @@ Optionally, you can host the RPM in a [COPR](https://copr.fedorainfracloud.org/)
 
 ## Updating to a new version
 
-Run the update script to automatically fetch the latest versions and update all formula/spec files:
+Run the update script to automatically fetch the latest versions and update all formula/spec files. Works on both Linux and macOS.
 
 ```bash
 ./update-kiro.sh
