@@ -47,7 +47,7 @@ Optionally, you can host the RPM in a [COPR](https://copr.fedorainfracloud.org/)
 
 ## Updating to a new version
 
-Run the update script to automatically fetch the latest versions and update all formula/spec files. Works on both Linux and macOS.
+Run the update script to automatically fetch the latest versions and update all formula/spec files. Works on both Linux and macOS. The script compares the upstream sha256 against the current formula and only updates files when a new version is available.
 
 ```bash
 ./update-kiro.sh
