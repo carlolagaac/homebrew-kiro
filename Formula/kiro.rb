@@ -1,9 +1,9 @@
 class Kiro < Formula
   desc "Agent-centric IDE with spec-driven development"
   homepage "https://kiro.dev/"
-  version "1.0.0"
+  version "0.12.333"
   url "https://prod.download.desktop.kiro.dev/releases/stable/linux-x64/signed/#{version}/tar/kiro-ide-#{version}-stable-linux-x64.tar.gz"
-  sha256 "367a18e469b2a325b9087829e0ae03e972cbb7d4dbdd74bf28eaa216842f6a16"
+  sha256 "1048f4873ddfc4fb5eb227d7b856f40d07c51da620390d708246aa70d31e5fce"
 
   def install
     libexec.install Dir["*"]
