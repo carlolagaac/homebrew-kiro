@@ -9,14 +9,20 @@ else
   sedi() { sed -i '' "$@"; }
 fi
 
+if command -v sha256sum &>/dev/null; then
+  sha256cmd() { sha256sum | awk '{print $1}'; }
+else
+  sha256cmd() { shasum -a 256 | awk '{print $1}'; }
+fi
+
 echo "Fetching latest Kiro IDE version..."
 VERSION=$(curl -s https://prod.download.desktop.kiro.dev/stable/metadata-linux-x64-stable.json | python3 -c "import sys,json; print(json.load(sys.stdin)['currentRelease'])")
 echo "Latest version: $VERSION"
 
-CURRENT_SHA256=$(grep -oP '^\s*sha256 "\K[^"]+' Formula/kiro.rb)
+CURRENT_SHA256=$(grep 'sha256 "' Formula/kiro.rb | sed 's/.*sha256 "//;s/"//')
 
 echo "Downloading tarball and computing sha256..."
-SHA256=$(curl -sL "https://prod.download.desktop.kiro.dev/releases/stable/linux-x64/signed/${VERSION}/tar/kiro-ide-${VERSION}-stable-linux-x64.tar.gz" | sha256sum | awk '{print $1}')
+SHA256=$(curl -sL "https://prod.download.desktop.kiro.dev/releases/stable/linux-x64/signed/${VERSION}/tar/kiro-ide-${VERSION}-stable-linux-x64.tar.gz" | sha256cmd)
 echo "SHA256: $SHA256"
 
 if [ "$SHA256" = "$CURRENT_SHA256" ]; then
@@ -33,10 +39,10 @@ echo "Fetching latest Kiro CLI version..."
 CLI_VERSION=$(curl -s https://desktop-release.q.us-east-1.amazonaws.com/latest/manifest.json | python3 -c "import sys,json; print(json.load(sys.stdin)['version'])")
 echo "Latest version: $CLI_VERSION"
 
-CURRENT_CLI_SHA256=$(grep -oP '^\s*sha256 "\K[^"]+' Formula/kiro-cli.rb)
+CURRENT_CLI_SHA256=$(grep 'sha256 "' Formula/kiro-cli.rb | sed 's/.*sha256 "//;s/"//')
 
 echo "Downloading tarball and computing sha256..."
-CLI_SHA256=$(curl -sL "https://desktop-release.q.us-east-1.amazonaws.com/${CLI_VERSION}/kirocli-x86_64-linux.tar.gz" | sha256sum | awk '{print $1}')
+CLI_SHA256=$(curl -sL "https://desktop-release.q.us-east-1.amazonaws.com/${CLI_VERSION}/kirocli-x86_64-linux.tar.gz" | sha256cmd)
 echo "SHA256: $CLI_SHA256"
 
 if [ "$CLI_SHA256" = "$CURRENT_CLI_SHA256" ]; then
