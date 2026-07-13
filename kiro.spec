@@ -2,7 +2,7 @@
 %global __strip /bin/true
 
 Name:           kiro
-Version:        0.12.333
+Version:        1.0.138
 Release:        1%{?dist}
 Summary:        Agent-centric IDE with spec-driven development
 License:        Proprietary
