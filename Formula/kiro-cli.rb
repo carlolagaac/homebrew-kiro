@@ -1,9 +1,9 @@
 class KiroCli < Formula
   desc "Kiro CLI — agentic AI development from the terminal"
   homepage "https://kiro.dev/cli/"
-  version "2.13.0"
+  version "2.14.2"
   url "https://desktop-release.q.us-east-1.amazonaws.com/#{version}/kirocli-x86_64-linux.tar.gz"
-  sha256 "f2a12794dbfc9502b74828d827f01d7d607f4442e98cb234550ee7e2f280ec32"
+  sha256 "43dcb8b2fec2adc0095325893f2f205e1ea07e9226eddf6bafaa1daa523b634d"
 
   def install
     bin.install "bin/kiro-cli"
