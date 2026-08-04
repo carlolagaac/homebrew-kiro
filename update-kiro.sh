@@ -15,6 +15,9 @@ else
   sha256cmd() { shasum -a 256 | awk '{print $1}'; }
 fi
 
+KIRO_UPDATED=""
+CLI_UPDATED=""
+
 echo "Fetching latest Kiro IDE version..."
 VERSION=$(curl -s https://prod.download.desktop.kiro.dev/stable/metadata-linux-x64-stable.json | python3 -c "import sys,json; print(json.load(sys.stdin)['currentRelease'])")
 echo "Latest version: $VERSION"
@@ -32,6 +35,7 @@ else
   sedi "s/^  sha256 \".*\"/  sha256 \"${SHA256}\"/" Formula/kiro.rb
   sedi "s/^Version:        .*/Version:        ${VERSION}/" kiro.spec
   echo "Updated Formula/kiro.rb and kiro.spec to version ${VERSION}"
+  KIRO_UPDATED="$VERSION"
 fi
 
 echo ""
@@ -51,4 +55,23 @@ else
   sedi "s/^  version \".*\"/  version \"${CLI_VERSION}\"/" Formula/kiro-cli.rb
   sedi "s/^  sha256 \".*\"/  sha256 \"${CLI_SHA256}\"/" Formula/kiro-cli.rb
   echo "Updated Formula/kiro-cli.rb to version ${CLI_VERSION}"
+  CLI_UPDATED="$CLI_VERSION"
+fi
+
+# Commit and push if anything changed
+if [ -n "$KIRO_UPDATED" ] || [ -n "$CLI_UPDATED" ]; then
+  echo ""
+  PARTS=()
+  [ -n "$KIRO_UPDATED" ] && PARTS+=("kiro $KIRO_UPDATED")
+  [ -n "$CLI_UPDATED" ] && PARTS+=("kiro-cli $CLI_UPDATED")
+  COMMIT_MSG=$(IFS=', '; echo "${PARTS[*]}")
+
+  git add .
+  git commit -m "$COMMIT_MSG"
+  git push
+  echo ""
+  echo "Pushed: $COMMIT_MSG"
+else
+  echo ""
+  echo "Nothing to update."
 fi
