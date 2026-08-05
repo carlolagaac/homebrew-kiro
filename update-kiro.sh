@@ -17,6 +17,7 @@ fi
 
 KIRO_UPDATED=""
 CLI_UPDATED=""
+CREW_UPDATED=""
 
 echo "Fetching latest Kiro IDE version..."
 VERSION=$(curl -s https://prod.download.desktop.kiro.dev/stable/metadata-linux-x64-stable.json | python3 -c "import sys,json; print(json.load(sys.stdin)['currentRelease'])")
@@ -58,12 +59,34 @@ else
   CLI_UPDATED="$CLI_VERSION"
 fi
 
+echo ""
+echo "Fetching latest KiroCrew version..."
+CREW_CURRENT_SHA256=$(grep 'sha256 "' Formula/kirocrew.rb | sed 's/.*sha256 "//;s/"//')
+
+echo "Downloading AppImage and computing sha256..."
+CREW_SHA256=$(curl -sL "https://download.crew.kiro.dev/desktop/stable/latest/KiroCrew-x86_64.AppImage" | sha256cmd)
+echo "SHA256: $CREW_SHA256"
+
+if [ "$CREW_SHA256" = "$CREW_CURRENT_SHA256" ]; then
+  echo "Formula/kirocrew.rb is already up to date."
+else
+  # Try to get version from GitHub releases API
+  CREW_VERSION=$(curl -s "https://api.github.com/repos/kirodotdev/KiroCrew/releases/latest" | python3 -c "import sys,json; print(json.load(sys.stdin)['tag_name'].lstrip('v'))" 2>/dev/null || echo "")
+  if [ -n "$CREW_VERSION" ]; then
+    sedi "s/^  version \".*\"/  version \"${CREW_VERSION}\"/" Formula/kirocrew.rb
+  fi
+  sedi "s/^  sha256 \".*\"/  sha256 \"${CREW_SHA256}\"/" Formula/kirocrew.rb
+  echo "Updated Formula/kirocrew.rb${CREW_VERSION:+ to version ${CREW_VERSION}}"
+  CREW_UPDATED="${CREW_VERSION:-new-sha256}"
+fi
+
 # Commit and push if anything changed
-if [ -n "$KIRO_UPDATED" ] || [ -n "$CLI_UPDATED" ]; then
+if [ -n "$KIRO_UPDATED" ] || [ -n "$CLI_UPDATED" ] || [ -n "$CREW_UPDATED" ]; then
   echo ""
   PARTS=()
   [ -n "$KIRO_UPDATED" ] && PARTS+=("kiro $KIRO_UPDATED")
   [ -n "$CLI_UPDATED" ] && PARTS+=("kiro-cli $CLI_UPDATED")
+  [ -n "$CREW_UPDATED" ] && PARTS+=("kirocrew $CREW_UPDATED")
   COMMIT_MSG=$(IFS=', '; echo "${PARTS[*]}")
 
   git add .

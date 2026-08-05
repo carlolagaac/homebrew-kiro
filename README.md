@@ -1,6 +1,6 @@
 # Kiro — Linux Packages
 
-Unofficial Linux packages for [Kiro IDE](https://kiro.dev/) and [Kiro CLI](https://kiro.dev/cli/).
+Unofficial Linux packages for [Kiro IDE](https://kiro.dev/), [Kiro CLI](https://kiro.dev/cli/), and [KiroCrew](https://github.com/kirodotdev/KiroCrew).
 
 Kiro officially provides a macOS Homebrew cask, a `.tar.gz` for Linux, and a CLI install script. This repo adds Homebrew formulae for Linuxbrew and an RPM spec for Fedora.
 
@@ -14,7 +14,13 @@ Works on standard Linux distros and immutable Fedora-based distros (Bazzite, Blu
 brew tap carlolagaac/kiro
 brew install kiro          # Kiro IDE
 brew install kiro-cli      # Kiro CLI (terminal agent)
+brew install kirocrew      # KiroCrew Desktop (AppImage, Linux only)
 ```
+
+> **Bazzite / immutable Fedora note:** If you get a FUSE error when launching KiroCrew, run it with:
+> ```bash
+> kirocrew-desktop --appimage-extract-and-run
+> ```
 
 ### Upgrade
 
@@ -53,7 +59,7 @@ Run the update script to automatically fetch the latest versions and update all 
 ./update-kiro.sh
 ```
 
-This updates `Formula/kiro.rb`, `kiro.spec` (Kiro IDE), and `Formula/kiro-cli.rb` (Kiro CLI).
+This updates `Formula/kiro.rb`, `kiro.spec` (Kiro IDE), `Formula/kiro-cli.rb` (Kiro CLI), and `Formula/kirocrew.rb` (KiroCrew Desktop).
 
 ### Manual update
 
@@ -87,6 +93,22 @@ This updates `Formula/kiro.rb`, `kiro.spec` (Kiro IDE), and `Formula/kiro-cli.rb
 
 3. Update `version` and `sha256` in `Formula/kiro-cli.rb`.
 
+#### KiroCrew Desktop
+
+KiroCrew uses a `latest` download URL with no versioned path. Updates are detected by sha256 change.
+
+1. Get the new sha256:
+   ```bash
+   curl -sL "https://download.crew.kiro.dev/desktop/stable/latest/KiroCrew-x86_64.AppImage" | sha256sum
+   ```
+
+2. Check the latest version from GitHub releases:
+   ```bash
+   curl -s https://api.github.com/repos/kirodotdev/KiroCrew/releases/latest | python3 -c "import sys,json; print(json.load(sys.stdin)['tag_name'])"
+   ```
+
+3. Update `version` and `sha256` in `Formula/kirocrew.rb`.
+
 ## License
 
-The packaging files in this repo are MIT. Kiro itself is proprietary — see [kiro.dev/license](https://kiro.dev/license/).
+The packaging files in this repo are MIT. Kiro itself is proprietary — see [kiro.dev/license](https://kiro.dev/license/). KiroCrew is Apache 2.0.
