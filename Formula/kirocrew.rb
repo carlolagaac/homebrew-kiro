@@ -1,9 +1,9 @@
 class Kirocrew < Formula
   desc "Persistent AI workspace that self-improves and continues beyond one session"
   homepage "https://github.com/kirodotdev/KiroCrew"
-  version "0.7.2"
+  version "0.8.0"
   url "https://download.crew.kiro.dev/desktop/stable/latest/KiroCrew-x86_64.AppImage"
-  sha256 "38380fa8160404c2c8bcd093977b1a414e6b2678724ed2fb3bb7164443df6b02"
+  sha256 "ba40001f3fa310d034b7fab653f4dad03f57c63be4abba88b4b74d6a6056da3e"
   license "Apache-2.0"
 
   depends_on :linux
