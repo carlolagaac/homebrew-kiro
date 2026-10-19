@@ -95,19 +95,20 @@ This updates `Formula/kiro.rb`, `kiro.spec` (Kiro IDE), `Formula/kiro-cli.rb` (K
 
 #### KiroCrew Desktop
 
-KiroCrew uses a `latest` download URL with no versioned path. Updates are detected by sha256 change.
+KiroCrew publishes versioned AppImages as GitHub release assets. Updates are detected by comparing the GitHub release version against the formula's `version` field.
 
-1. Get the new sha256:
+1. Check the latest version from GitHub releases:
    ```bash
-   curl -sL "https://download.crew.kiro.dev/desktop/stable/latest/KiroCrew-x86_64.AppImage" | sha256sum
+   curl -s https://api.github.com/repos/kirodotdev/KiroCrew/releases/latest | python3 -c "import sys,json; print(json.load(sys.stdin)['tag_name'].lstrip('v'))"
    ```
 
-2. Check the latest version from GitHub releases:
+2. Get the new sha256 (versioned asset URL):
    ```bash
-   curl -s https://api.github.com/repos/kirodotdev/KiroCrew/releases/latest | python3 -c "import sys,json; print(json.load(sys.stdin)['tag_name'])"
+   VERSION=<new-version>
+   curl -sL "https://github.com/kirodotdev/KiroCrew/releases/download/v${VERSION}/KiroCrew-${VERSION}-x86_64.AppImage" | sha256sum
    ```
 
-3. Update `version` and `sha256` in `Formula/kirocrew.rb`.
+3. Update `version` and `sha256` in `Formula/kirocrew.rb`. The `url` field uses `#{version}` interpolation, so it resolves automatically once `version` is bumped.
 
 ## License
 
