@@ -61,23 +61,22 @@ fi
 
 echo ""
 echo "Fetching latest KiroCrew version..."
-CREW_CURRENT_SHA256=$(grep 'sha256 "' Formula/kirocrew.rb | sed 's/.*sha256 "//;s/"//')
+CREW_CURRENT_VERSION=$(grep '^  version "' Formula/kirocrew.rb | sed 's/.*version "//;s/"//')
 
-echo "Downloading AppImage and computing sha256..."
-CREW_SHA256=$(curl -sL "https://download.crew.kiro.dev/desktop/stable/latest/KiroCrew-x86_64.AppImage" | sha256cmd)
-echo "SHA256: $CREW_SHA256"
+CREW_VERSION=$(curl -s "https://api.github.com/repos/kirodotdev/KiroCrew/releases/latest" | python3 -c "import sys,json; print(json.load(sys.stdin)['tag_name'].lstrip('v'))")
+echo "Latest version: $CREW_VERSION"
 
-if [ "$CREW_SHA256" = "$CREW_CURRENT_SHA256" ]; then
+if [ "$CREW_VERSION" = "$CREW_CURRENT_VERSION" ]; then
   echo "Formula/kirocrew.rb is already up to date."
 else
-  # Try to get version from GitHub releases API
-  CREW_VERSION=$(curl -s "https://api.github.com/repos/kirodotdev/KiroCrew/releases/latest" | python3 -c "import sys,json; print(json.load(sys.stdin)['tag_name'].lstrip('v'))" 2>/dev/null || echo "")
-  if [ -n "$CREW_VERSION" ]; then
-    sedi "s/^  version \".*\"/  version \"${CREW_VERSION}\"/" Formula/kirocrew.rb
-  fi
+  echo "Downloading AppImage and computing sha256..."
+  CREW_SHA256=$(curl -sL "https://github.com/kirodotdev/KiroCrew/releases/download/v${CREW_VERSION}/KiroCrew-${CREW_VERSION}-x86_64.AppImage" | sha256cmd)
+  echo "SHA256: $CREW_SHA256"
+
+  sedi "s/^  version \".*\"/  version \"${CREW_VERSION}\"/" Formula/kirocrew.rb
   sedi "s/^  sha256 \".*\"/  sha256 \"${CREW_SHA256}\"/" Formula/kirocrew.rb
-  echo "Updated Formula/kirocrew.rb${CREW_VERSION:+ to version ${CREW_VERSION}}"
-  CREW_UPDATED="${CREW_VERSION:-new-sha256}"
+  echo "Updated Formula/kirocrew.rb to version ${CREW_VERSION}"
+  CREW_UPDATED="$CREW_VERSION"
 fi
 
 # Commit and push if anything changed
