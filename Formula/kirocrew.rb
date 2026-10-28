@@ -9,7 +9,7 @@ class Kirocrew < Formula
   depends_on :linux
 
   def install
-    bin.install "KiroCrew-x86_64.AppImage" => "kirocrew-desktop"
+    bin.install "KiroCrew-#{version}-x86_64.AppImage" => "kirocrew-desktop"
     chmod 0755, bin/"kirocrew-desktop"
   end
 
