@@ -46,7 +46,7 @@ rpmbuild -bb ~/rpmbuild/SPECS/kiro.spec
 ### Install
 
 ```bash
-sudo dnf install ~/rpmbuild/RPMS/x86_64/kiro-0.11.63-1.fc*.x86_64.rpm
+sudo dnf install ~/rpmbuild/RPMS/x86_64/kiro-*.x86_64.rpm
 ```
 
 Optionally, you can host the RPM in a [COPR](https://copr.fedorainfracloud.org/) repo for easier distribution.
