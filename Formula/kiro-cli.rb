@@ -6,9 +6,9 @@ class KiroCli < Formula
   sha256 "2ebb8688b84765e4baf46d6e28b3e79780e7724e198591c22d0528d03a88a282"
 
   def install
+    # kiro-cli 3.0.0 consolidated the chat/term binaries into a single
+    # kiro-cli executable (they are now subcommands), so only one binary ships.
     bin.install "bin/kiro-cli"
-    bin.install "bin/kiro-cli-chat"
-    bin.install "bin/kiro-cli-term"
   end
 
   test do
