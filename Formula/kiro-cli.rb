@@ -1,9 +1,9 @@
 class KiroCli < Formula
   desc "Kiro CLI — agentic AI development from the terminal"
   homepage "https://kiro.dev/cli/"
-  version "3.2.0"
+  version "3.3.0"
   url "https://desktop-release.q.us-east-1.amazonaws.com/#{version}/kirocli-x86_64-linux.tar.gz"
-  sha256 "98a5c8b1fd8d46a4b96fc20ffef7ba6a0740772e725b77a641a2dde1a9bb8638"
+  sha256 "b88142aa02789504ac77fdf6ee829f0f4bdc9ce2e5dd0cc73084e105003c8fc3"
 
   def install
     # kiro-cli 3.0.0 consolidated the chat/term binaries into a single
